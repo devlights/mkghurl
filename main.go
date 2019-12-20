@@ -11,10 +11,15 @@ const (
 	ghUser     string = "GITHUB_USER"
 	ghToken    string = "GITHUB_TOKEN"
 	urlPattern string = "https://%s:%s@github.com/%s/%s.git"
+	version    string = "v1.0.3"
+)
+
+var (
+	showVersion = flag.Bool("v", false, "show version")
 )
 
 func usage() {
-	_, _ = fmt.Fprintf(os.Stderr, "usage: mkghurl repo-name\n")
+	_, _ = fmt.Fprintf(os.Stderr, "usage: mkghurl repo-name [flags]\n")
 	flag.PrintDefaults()
 }
 
@@ -54,13 +59,17 @@ func main() {
 	flag.Usage = usage
 	flag.Parse()
 
-	args := flag.Args()
-	if len(args) == 0 {
+	if *showVersion {
+		_, _ = fmt.Fprintf(os.Stdout, "%s\n", version)
+		os.Exit(1)
+	}
+
+	if flag.NArg() == 0 {
 		usage()
 		os.Exit(1)
 	}
 
-	repo, err := getRepo(args)
+	repo, err := getRepo(flag.Args())
 	if err != nil {
 		errorExit(err)
 	}
