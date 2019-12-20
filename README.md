@@ -16,7 +16,7 @@ https://$GITHUB_USER:$GITHUB_TOKEN@github.com/$GITHUB_USER/repo-name.git
 ## Install
 
 ```shell script
-$ go install github.com/devlights/mkghurl
+$ go get -u github.com/devlights/mkghurl
 ```
 
 ## Run
