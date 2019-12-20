@@ -3,16 +3,25 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 )
 
 const (
-	GhUser     string = "GITHUB_USER"
-	GhToken    string = "GITHUB_TOKEN"
-	UrlPattern string = "https://%s:%s@github.com/%s/%s.git"
+	ghUser     string = "GITHUB_USER"
+	ghToken    string = "GITHUB_TOKEN"
+	urlPattern string = "https://%s:%s@github.com/%s/%s.git"
 )
+
+func usage() {
+	_, _ = fmt.Fprintf(os.Stderr, "usage: mkghurl repo-name\n")
+	flag.PrintDefaults()
+}
+
+func errorExit(e error) {
+	_, _ = fmt.Fprintf(os.Stderr, "%s", e)
+	os.Exit(1)
+}
 
 func getRepo(args []string) (string, error) {
 	v := args[0]
@@ -26,8 +35,8 @@ func getRepo(args []string) (string, error) {
 }
 
 func getInfo() (string, string, error) {
-	u := os.Getenv(GhUser)
-	t := os.Getenv(GhToken)
+	u := os.Getenv(ghUser)
+	t := os.Getenv(ghToken)
 
 	var e error
 	if u == "" || t == "" {
@@ -38,31 +47,34 @@ func getInfo() (string, string, error) {
 }
 
 func makeUrl(user, token, repo string) (string, error) {
-	return fmt.Sprintf(UrlPattern, user, token, user, repo), nil
+	return fmt.Sprintf(urlPattern, user, token, user, repo), nil
 }
 
 func main() {
+	flag.Usage = usage
 	flag.Parse()
 
 	args := flag.Args()
 	if len(args) == 0 {
-		log.Fatal("no repo-name specified")
+		usage()
+		os.Exit(1)
 	}
 
 	repo, err := getRepo(args)
 	if err != nil {
-		log.Fatal(err)
+		errorExit(err)
 	}
 
 	user, token, err := getInfo()
 	if err != nil {
-		log.Fatal(err)
+		errorExit(err)
 	}
 
 	url, err := makeUrl(user, token, repo)
 	if err != nil {
-		log.Fatal(err)
+		errorExit(err)
 	}
 
-	fmt.Println(url)
+	_, _ = fmt.Fprintln(os.Stdout, url)
+	os.Exit(0)
 }
