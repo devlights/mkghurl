@@ -16,6 +16,7 @@ const (
 
 var (
 	showVersion = flag.Bool("v", false, "show version")
+	noNewLine   = flag.Bool("n", false, "with no newline")
 )
 
 func usage() {
@@ -51,7 +52,7 @@ func getInfo() (string, string, error) {
 	return u, t, e
 }
 
-func makeUrl(user, token, repo string) (string, error) {
+func makeURL(user, token, repo string) (string, error) {
 	return fmt.Sprintf(urlPattern, user, token, user, repo), nil
 }
 
@@ -79,11 +80,16 @@ func main() {
 		errorExit(err)
 	}
 
-	url, err := makeUrl(user, token, repo)
+	url, err := makeURL(user, token, repo)
 	if err != nil {
 		errorExit(err)
 	}
 
-	_, _ = fmt.Fprintln(os.Stdout, url)
+	if *noNewLine {
+		_, _ = fmt.Fprint(os.Stdout, url)
+	} else {
+		_, _ = fmt.Fprintln(os.Stdout, url)
+	}
+
 	os.Exit(0)
 }
