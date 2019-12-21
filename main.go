@@ -11,7 +11,7 @@ const (
 	ghUser     string = "GITHUB_USER"
 	ghToken    string = "GITHUB_TOKEN"
 	urlPattern string = "https://%s:%s@github.com/%s/%s.git"
-	version    string = "v1.0.3"
+	version    string = "v1.0.4"
 )
 
 var (
