@@ -15,8 +15,9 @@ const (
 )
 
 var (
-	showVersion = flag.Bool("v", false, "show version")
-	noNewLine   = flag.Bool("n", false, "with no newline")
+	showVersion  = flag.Bool("v", false, "show version")
+	noNewLine    = flag.Bool("n", false, "with no newline")
+	withGitClone = flag.Bool("g", false, "with 'git clone' prefix")
 )
 
 func usage() {
@@ -56,6 +57,15 @@ func makeURL(user, token, repo string) (string, error) {
 	return fmt.Sprintf(urlPattern, user, token, user, repo), nil
 }
 
+func withPrefix(url string, gitClone bool) (string, error) {
+	var e error
+	if !gitClone {
+		return url, e
+	}
+
+	return fmt.Sprintf("git clone %s", url), e
+}
+
 func main() {
 	flag.Usage = usage
 	flag.Parse()
@@ -85,10 +95,15 @@ func main() {
 		errorExit(err)
 	}
 
+	urlWithPrefix, err := withPrefix(url, *withGitClone)
+	if err != nil {
+		errorExit(err)
+	}
+
 	if *noNewLine {
-		_, _ = fmt.Fprint(os.Stdout, url)
+		_, _ = fmt.Fprint(os.Stdout, urlWithPrefix)
 	} else {
-		_, _ = fmt.Fprintln(os.Stdout, url)
+		_, _ = fmt.Fprintln(os.Stdout, urlWithPrefix)
 	}
 
 	os.Exit(0)
