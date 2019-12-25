@@ -3,6 +3,7 @@ GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
+GORUN=$(GOCMD) run
 
 REPO_NAME=repo
 
@@ -25,9 +26,9 @@ test:
 .PHONY: clean
 clean:
 	$(GOCLEAN)
-	rm -f $(BIN_NAME)
+	rm -f ./$(BIN_NAME)
 
 .PHONY: run
 run: clean build
 	./$(BIN_NAME) $(REPO_NAME)
-
+	rm -f ./$(BIN_NAME)
