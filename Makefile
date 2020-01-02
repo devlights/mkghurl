@@ -32,3 +32,9 @@ clean:
 run: clean build
 	./$(BIN_NAME) $(REPO_NAME)
 	rm -f ./$(BIN_NAME)
+
+.PHONY: version
+version: clean build
+	./$(BIN_NAME) -v
+	rm -f ./$(BIN_NAME)
+
