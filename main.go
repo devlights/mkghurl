@@ -72,7 +72,7 @@ func main() {
 
 	if *showVersion {
 		_, _ = fmt.Fprintf(os.Stdout, "%s\n", version)
-		os.Exit(1)
+		os.Exit(0)
 	}
 
 	if flag.NArg() == 0 {
