@@ -31,3 +31,9 @@ with clipboard copy
 $ go get github.com/atotto/clipboard/cmd/gocopy
 $ mkghurl repo-name | gocopy
 ```
+
+or
+
+```shell script
+$ mkghurl -n repo-name | xargs git clone
+```
