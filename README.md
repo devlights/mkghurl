@@ -1,5 +1,7 @@
 # mkghurl
 
+[![CodeFactor](https://www.codefactor.io/repository/github/devlights/mkghurl/badge)](https://www.codefactor.io/repository/github/devlights/mkghurl)
+
 Make github url from OS env variables.
 
 The tool reads the following values:
