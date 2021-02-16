@@ -11,17 +11,17 @@ const (
 	ghUser     string = "GITHUB_USER"
 	ghToken    string = "GITHUB_TOKEN"
 	urlPattern string = "https://%s:%s@github.com/%s/%s.git"
-	version    string = "v1.0.6"
+	version    string = "v1.0.7"
 )
 
 var (
-	showVersion  = flag.Bool("v", false, "show version")
+	showVersion  = flag.Bool("version", false, "show version")
 	noNewLine    = flag.Bool("n", false, "with no newline")
 	withGitClone = flag.Bool("g", false, "with 'git clone' prefix")
 )
 
 func usage() {
-	_, _ = fmt.Fprintf(os.Stderr, "usage: mkghurl repo-name [flags]\n")
+	_, _ = fmt.Fprintf(os.Stderr, "usage: mkghurl [options] repo-name\n")
 	flag.PrintDefaults()
 }
 
